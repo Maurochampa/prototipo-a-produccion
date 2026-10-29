@@ -1,0 +1,4 @@
+# Contraseñas y datos: nunca a Git
+.env
+backups/
+node_modules/

@@ -1,0 +1,23 @@
+# Proxy inverso con HTTPS.
+# En el laboratorio usa un certificado propio (tls internal).
+# En un VPS con dominio, cambiás la primera línea por "midominio.com" y
+# borrás "tls internal": Caddy saca el certificado de Let's Encrypt solo.
+{
+	skip_install_trust
+}
+
+https://localhost:{$HTTPS_PORT:8443} {
+	tls internal
+	encode zstd gzip
+	reverse_proxy app:3000
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	log
+}
